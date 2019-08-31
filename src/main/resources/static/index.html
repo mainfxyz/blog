@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>老万博客</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/me/page.js"></script>
+
+    <!--CSDN兼容-->
+    <link rel="stylesheet" href="css/dracula.css">
+    <link rel="stylesheet" href="css/ck_htmledit_views-3019150162.css">
+
+    <style type="text/css">
+        .hljs-ln {
+            border-collapse: collapse
+        }
+        .hljs-ln td {
+            padding: 0
+        }
+        .hljs-ln-n {
+            text-align: right;
+            padding-right: 8px;
+        }
+        .hljs-ln-n:before {
+            content: attr(data-line-number)
+        }
+    </style>
+</head>
+<body>
+
+<div class="row text-center" style="margin:0;padding: 1rem 0 1rem 0;">
+    <div class="col-md-4">
+        <span style="font-size: 30px">老万博客</span>
+    </div>
+    <div class="col-md-6" style="padding:0">
+        <form class="search" action="javascript:void(0);">
+            <select name="searchType" id="searchType">
+                <option value="title">标题</option>
+                <option value="body">内容</option>
+                <option value="tag">标签</option>
+            </select><input name="search" class="text" type="text" placeholder="搜索"><input class="submit" type="submit" value="搜索">
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<nav class="navbar navbar-expand-sm bg-light navbar-light" style="font-weight: 600">
+    <a class="navbar-brand" href="/">导航</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item checkNav">
+                <a id="java" class="nav-link" href="?clas=java">Java</a>
+            </li>
+            <li class="nav-item checkNav">
+                <a id="sql" class="nav-link" href="?clas=sql">数据库</a>
+            </li>
+            <li class="nav-item checkNav">
+                <a id="python" class="nav-link" href="?clas=python">Python</a>
+            </li>
+            <li class="nav-item checkNav">
+                <a id="linux" class="nav-link" href="?clas=linux">linux</a>
+            </li>
+            <li class="nav-item checkNav">
+                <a id="安全" class="nav-link" href="?clas=安全">安全</a>
+            </li>
+            <li class="nav-item checkNav">
+                <a id="算法" class="nav-link" href="?clas=算法">算法</a>
+            </li>
+            <li class="nav-item checkNav">
+                <a id="其他" class="nav-link" href="?clas=其他">其他</a>
+            </li>
+            <li class="nav-item checkNav">
+                <a id="个人生活" class="nav-link" href="?clas=个人生活">个人生活</a>
+            </li>
+        </ul>
+        <span class="navbar-text">
+            <a style="color: rgba(0,0,0,0.6);cursor: pointer" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-sign-in"></i>&nbsp;登录
+            </a>
+        </span>
+    </div>
+</nav>
+
+<div class="container" style="margin-top:30px">
+    <div class="row">
+        <div class="col-md-2">
+            <h5><a class="card-link" data-toggle="collapse" href="#collapseOne">时间归档</a></h5>
+            <div id="collapseOne" class="collapse show time" data-parent="#accordion">
+                    <ul class="nav nav-pills flex-column" style="color:#17a2b8">
+                        <li class="nav-item">
+                            <a id="2020" class="nav-link timeItem" href="javascript:void(0)">2020年</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="2019" class="nav-link timeItem" href="javascript:void(0)">2019年</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="2018" class="nav-link timeItem" href="javascript:void(0)">2018年</a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="2017" class="nav-link timeItem" href="javascript:void(0)">2017年</a>
+                        </li>
+                    </ul>
+            </div>
+            <hr class="d-sm-none">
+        </div>
+        <div class="col-md-8" id="artListApp">
+            <div v-for="art in arts">
+                <span class="badge badge-pill float-left" style="background: #bea984">{{art.tag}}</span>
+                <h5 class="art" :id="art.id" style="cursor: pointer;">{{art.title}}</h5>
+                <p>{{art.summary}}</p>
+                <div class="row">
+                    <div class="col-md-7">
+                        <i class="fa fa-user"></i>&nbsp;作者：{{art.author}}
+                        <i class="fa fa-clock-o"></i>&nbsp;写作日期：{{art.time}}&nbsp;&nbsp;
+                    </div>
+                    <div class="col-md-5">
+                        <i class="fa fa-eye"></i>&nbsp;浏览量：{{art.cnt}}&nbsp;&nbsp;
+                        <i class="fa fa-commenting-o"></i>&nbsp;评论数：{{art.revCnt}}
+                    </div>
+                </div>
+                <hr width="100%">
+            </div>
+            <div class="row mx-auto" style="margin-top: 10px;width:300px">
+                <ul id="page" class="pagination pagination-sm center-block">
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+<div class="jumbotron text-center" style="margin-bottom:0;padding: 1rem 1rem">
+<pre>个人技术博客，转载请注明出处
+技术探讨可以联系我，Email：15610575692@163.com
+</pre>
+</div>
+
+<!-- 模态框 -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- 模态框头部 -->
+            <div class="modal-header">
+                <h4 class="modal-title">登录</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <form action="javascript:void(0);" class="form-group" id="login_form">
+                    <input class="form-control" name="username" type="email" placeholder="邮箱">
+                    <p></p>
+                    <input class="form-control" name="password" type="password" placeholder="密码">
+                    <p></p>
+                    <p><a href="#">忘记密码？</a> <a href="#">注册</a></p>
+                    <input id="submit" class="btn btn-success btn-block" type="submit" value="登录">
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--end 模态框-->
+
+<script type="text/javascript">
+    let json=p2j(window.location.search);//用json处理url参数
+
+    $(".search>.text").val(json.search);//保存搜索关键字
+    $("#searchType").val(json.searchType||"title");//保存搜索类型
+    $("#"+json.clas).addClass("active");//处理导航active
+    if(json.time!=null) $('#'+json.time.split[0]).addClass("activeTime");//处理timeactive
+
+    //文章dom生成
+    new Vue({
+        el:'#artListApp',
+        data:{
+            arts:"infos"
+        },
+        mounted () {
+            let _self=this;
+            $.get("/art/list",p2j(window.location.search),function (result) {
+                _self.arts = result.arts;
+                initPage(json.page||1,result.num);//加载分页
+            });
+        },
+    });
+    /**
+     * json合并 添加source到target
+     * @param target 目标json
+     * @param source 源json
+     * @return json 合并后的目标json
+     * */
+    function merge(target, source) {
+        for (var obj in source) {
+            target[obj] = source[obj];
+        }
+        return target;
+    }
+
+    //搜索提交处理
+    $(".submit").click(function () {
+        var fData=$(".search").serialize();
+        var mJson=merge(p2j(window.location.search),p2j('?'+fData));
+        window.location.href='?'+j2p(mJson);
+    });
+
+    //查看文章处理
+    $(".art").click(function () {
+        var o={};
+        o.id=this.id;
+        $.get("/art/show",o,function (result) {
+            $("#artListApp").html(result.body).css("color","black");
+        });
+    });
+
+    $(".timeItem").click(function () {
+        var mJson=merge(p2j(window.location.search),{time:$(this).attr("id")+"/1/1"});
+        window.location.href='?'+j2p(mJson);
+    });
+</script>
+</body>
+</html>

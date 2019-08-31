@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.DAO.ArticleMapper">
+
+    <select id="searchArticles" parameterType="com.entity.Article" resultType="Article">
+        SELECT article.id,title,clas,tag,author,cnt,summary,`time`,
+        COUNT(review.id) as revCnt FROM article left join review
+        on article.id=article_id
+        <where>
+            <if test="time!=null">YEAR(`time`) = YEAR(#{time})</if>
+            <if test="title!=null">AND title like concat('%',#{title},'%')</if>
+            <if test="body!=null">AND body like concat('%',#{body},'%') </if>
+            <if test="clas!=null">AND clas=#{clas}</if>
+            <if test="tag!=null">AND tag like concat('%',#{tag},'%')</if>
+            <if test="id!=null">AND id=#{id}</if>
+        </where>GROUP BY article.id ORDER BY time desc LIMIT 1000;
+    </select>
+
+    <insert id="addArticle" parameterType="com.entity.Article" useGeneratedKeys="true">
+        INSERT INTO article(body, title, clas, author, `time`, cnt, summary)
+        VALUES (#{body}, #{title}, #{clas}, #{author}, now(), 0, body);
+    </insert>
+</mapper>

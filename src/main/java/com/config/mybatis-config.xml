@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--    <settings>-->
+<!--        &lt;!&ndash; 打印查询语句 &ndash;&gt;-->
+<!--        <setting name="logImpl" value="STDOUT_LOGGING" />-->
+<!--    </settings>-->
+    <!--  简写类名  -->
+    <typeAliases>
+        <package name="com.entity"/>
+<!--        <typeAlias alias="User" type="com.entity.User" />-->
+<!--        <typeAlias alias="Article" type="com.entity.Article" />-->
+<!--        <typeAlias alias="Review" type="com.entity.Review" />-->
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver" />
+                <property name="url" value="jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&amp;characterEncoding=utf-8" />
+                <property name="username" value="root" />
+                <property name="password" value="123" />
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <!-- // power by http://www.yiibai.com -->
+        <mapper resource="com/mapper/UserMapper.xml" />
+        <mapper resource="com/mapper/ArticleMapper.xml" />
+        <mapper resource="com/mapper/ReviewMapper.xml" />
+<!--        <package name="com.mapper"/>-->
+    </mappers>
+</configuration>
